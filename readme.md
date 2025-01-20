@@ -1,0 +1,1 @@
+# Strict Transitions Benchmark for Redux and Pinia

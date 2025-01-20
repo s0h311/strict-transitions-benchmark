@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "noUncheckedIndexedAccess": true,
+    "module": "ESNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ESNext"],
+    "types": ["node"]
+  }
+}
