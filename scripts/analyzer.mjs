@@ -8,9 +8,10 @@ const note = process.argv[3]
 const ignorePatterns = ['node_modules/', '.vscode/', '.idea/', 'out/', 'dist/', '.out/', '.dist']
 
 function getStatsAsCsvRow(fileType) {
-  const files = globSync(`**/*.${fileType}`, {
-    exclude: (path) => ignorePatterns.some((pattern) => path.includes(pattern)),
-  })
+  const files = globSync(`**/*.${fileType}`)
+	.filter((file) => {
+	  return ignorePatterns.every((pattern) => !file.includes(pattern))
+	})
 
   const loc = files
     .map((file) => {
