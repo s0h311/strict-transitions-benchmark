@@ -7,7 +7,7 @@ type ProductCardProps = {
 
 export default function ProductCard({ product }: ProductCardProps) {
   return (
-    <li className="product">
+    <article className="product">
       <h3>{product.title}</h3>
       <div>{product.description}</div>
       <div>${product.price}</div>
@@ -15,9 +15,9 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div>Rating {product.rating}/5</div>
       <ul>
         {product.tags.map((tag) => (
-          <li>{tag}</li>
+          <li key={tag}>{tag}</li>
         ))}
       </ul>
-    </li>
+    </article>
   )
 }

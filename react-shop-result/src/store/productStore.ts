@@ -1,3 +1,6 @@
+import { createSelector } from 'reselect'
+import { selectFilter } from './filterStore'
+
 export type ProductState = 'not-fetched' | 'fetching' | Product[] | Error
 
 export type ProductAction =
@@ -46,3 +49,14 @@ export function productReducer(state: ProductState = productInitialState, action
 }
 
 export const selectProducts = (state) => state[productSlice]
+export const visibleProducts = createSelector([selectProducts, selectFilter], (products, filters) => {
+  if (!Array.isArray(products)) {
+    return products
+  }
+
+  if (!filters.searchQuery) {
+    return products
+  }
+
+  return products.filter((product) => product.title.toLowerCase().includes(filters.searchQuery.toLowerCase()))
+})

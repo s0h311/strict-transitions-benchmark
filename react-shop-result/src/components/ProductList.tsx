@@ -1,7 +1,7 @@
 import './ProductList.css'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ProductState, selectProducts } from '../store/productStore'
+import { ProductState, selectProducts, visibleProducts } from '../store/productStore'
 import ProductCard from './ProductCard'
 
 export default function ProductList() {
@@ -30,7 +30,7 @@ export default function ProductList() {
     fetchProducts()
   }, [fetchProducts])
 
-  const products: ProductState = useSelector(selectProducts)
+  const products: ProductState = useSelector(visibleProducts)
 
   return (
     <ul className="product-list">

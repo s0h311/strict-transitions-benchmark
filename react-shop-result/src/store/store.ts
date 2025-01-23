@@ -1,12 +1,15 @@
 import { legacy_createStore as createStore } from 'redux'
 import { ProductState, productFeature, productInitialState, productReducer } from './productStore'
+import { filterFeature, filterInitialState, filterReducer, FilterState } from './filterStore'
 
 type State = {
   products: ProductState
+  filters: FilterState
 }
 
 const initialState: State = {
   products: productInitialState,
+  filters: filterInitialState,
 }
 
 function rootReducer(state: State = initialState, action): State {
@@ -17,6 +20,12 @@ function rootReducer(state: State = initialState, action): State {
       return {
         ...state,
         products: productReducer(state.products, action),
+      }
+    }
+    case filterFeature: {
+      return {
+        ...state,
+        filters: filterReducer(state.filters, action),
       }
     }
     default: {
