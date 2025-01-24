@@ -1,17 +1,17 @@
 <template>
   <form>
-    <input placeholder="Search" type="text" @input="updateSearchQuery" />
+    <input placeholder="Search" type="text" v-model="searchQuery" @input="updateSearchQuery" />
 
-    <input placeholder="max price" type="number" @input="updateMaxPrice" />
+    <input placeholder="max price" type="number" v-model="maxPrice" @input="updateMaxPrice" />
 
-    <input placeholder="min rating" type="number" :min="0" :max="5" @input="updateMinRating" />
+    <input placeholder="min rating" type="number" :min="0" :max="5" v-model="minRating" @input="updateMinRating" />
 
-    <input id="onlyInStockCheckbox" type="checkbox" @input="updateOnlyInStock" />
+    <input id="onlyInStockCheckbox" type="checkbox" v-model="onlyInStock" @change="updateOnlyInStock" />
     <label for="onlyInStockCheckbox">only in stock</label>
 
     <div v-for="tag in productStore.tags" :key="tag">
-      <input :id="tag + 'checkbox'" type="checkbox" :name="tag" @change="updateTags" />
-      <label :for="tag + 'checkbox'">{{ tag }}</label>
+      <input type="checkbox" :value="tag" v-model="enabledTags" @change="updateTags" />
+      {{ tag }}
     </div>
   </form>
 </template>
@@ -19,50 +19,34 @@
 <script setup lang="ts">
 import { useFilterStore } from '../store/filterStore.ts'
 import { useProductStore } from '../store/productStore.ts'
+import { ref } from 'vue'
 
 const filterStore = useFilterStore()
 const productStore = useProductStore()
 
-function updateSearchQuery(event: Event): void {
-  const input = event.target as HTMLInputElement
-  const query = input.value
+const searchQuery = ref<string | null>(filterStore.searchQuery)
+const maxPrice = ref<number | string>(filterStore.maxPrice)
+const minRating = ref<number | string>(filterStore.minRating)
+const onlyInStock = ref<boolean>(filterStore.onlyInStock)
+const enabledTags = ref<string[]>(filterStore.tags)
 
-  filterStore.updateSearchQuery(query)
+function updateSearchQuery(): void {
+  filterStore.updateSearchQuery(searchQuery.value)
 }
 
-function updateMaxPrice(event: Event): void {
-  const input = event.target as HTMLInputElement
-  const maxPrice = input.valueAsNumber
-
-  filterStore.updateMaxPrice(maxPrice)
+function updateMaxPrice(): void {
+  filterStore.updateMaxPrice(maxPrice.value === '' ? Infinity : Number(maxPrice.value))
 }
 
-function updateMinRating(event: Event): void {
-  const input = event.target as HTMLInputElement
-  const minRating = input.valueAsNumber
-
-  filterStore.updateMinRating(minRating)
+function updateMinRating(): void {
+  filterStore.updateMinRating(minRating.value === '' ? -Infinity : Number(minRating.value))
 }
 
-function updateOnlyInStock(event: Event): void {
-  const input = event.target as HTMLInputElement
-  const onlyInStock = input.checked
-
-  filterStore.updateOnlyInStock(onlyInStock)
+function updateOnlyInStock(): void {
+  filterStore.updateOnlyInStock(onlyInStock.value)
 }
 
-let enabledTags: string[] = []
-
-function updateTags(event: Event): void {
-  const input = event.target as HTMLInputElement
-  const tagName = input.name
-
-  if (enabledTags.includes(tagName)) {
-    enabledTags = enabledTags.filter((tag) => tag !== tagName)
-  } else {
-    enabledTags.push(tagName)
-  }
-
-  filterStore.updateTags(enabledTags)
+function updateTags(): void {
+  filterStore.updateTags(enabledTags.value)
 }
 </script>

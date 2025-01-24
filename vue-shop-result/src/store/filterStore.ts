@@ -21,10 +21,10 @@ export const useFilterStore = defineStore('filter', {
       this.searchQuery = searchQuery
     },
     updateMaxPrice(maxPrice: FilterState['maxPrice']) {
-      this.maxPrice = Number.isNaN(maxPrice) || maxPrice === null ? Infinity : maxPrice
+      this.maxPrice = Number.isNaN(maxPrice) ? Infinity : maxPrice
     },
     updateMinRating(minRating: FilterState['minRating']) {
-      this.minRating = Number.isNaN(minRating) || minRating === null ? -Infinity : minRating
+      this.minRating = Number.isNaN(minRating) ? -Infinity : minRating
     },
     updateOnlyInStock(onlyInStock: FilterState['onlyInStock']) {
       this.onlyInStock = onlyInStock
