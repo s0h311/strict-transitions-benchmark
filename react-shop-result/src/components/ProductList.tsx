@@ -25,6 +25,12 @@ export default function ProductList() {
           payload: res['products'],
         })
       })
+      .catch((error) => {
+        dispatch({
+          type: 'product/fetch-failed',
+          payload: error,
+        })
+      })
   }, [dispatch])
 
   useEffect(() => {
