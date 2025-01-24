@@ -2,16 +2,6 @@ export type FilterState = {
   searchQuery: string | null
 }
 
-type Product = {
-  id: number
-  title: string
-  description: string
-  price: number
-  rating: number
-  stock: number
-  tags: string[]
-}
-
 export type FilterAction = {
   type: 'filter/search'
   payload: string | null

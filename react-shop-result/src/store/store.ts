@@ -1,5 +1,5 @@
 import { legacy_createStore as createStore } from 'redux'
-import { ProductState, productFeature, productInitialState, productReducer } from './productStore'
+import { productFeature, productInitialState, productReducer, ProductState } from './productStore'
 import { filterFeature, filterInitialState, filterReducer, FilterState } from './filterStore'
 
 type State = {
@@ -34,6 +34,10 @@ function rootReducer(state: State = initialState, action): State {
   }
 }
 
-const rootStore = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+let devTools = undefined
 
-export default rootStore
+if ('__REDUX_DEVTOOLS_EXTENSION__' in window && typeof window.__REDUX_DEVTOOLS_EXTENSION__ === 'function') {
+  devTools = window.__REDUX_DEVTOOLS_EXTENSION__()
+}
+
+export default createStore(rootReducer, devTools)
