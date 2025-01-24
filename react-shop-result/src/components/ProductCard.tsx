@@ -1,5 +1,5 @@
 import './ProductCard.css'
-import { Product } from '../store/productStore'
+import { Product } from '../store/product/type.ts'
 
 type ProductCardProps = {
   product: Product

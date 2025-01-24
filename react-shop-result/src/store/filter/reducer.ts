@@ -12,13 +12,13 @@ export function filterReducer(state: FilterState = filterInitialState, action: F
     case 'filter/maxPrice': {
       return {
         ...state,
-        maxPrice: action.payload,
+        maxPrice: Number.isNaN(action.payload) || action.payload === null ? Infinity : action.payload,
       }
     }
     case 'filter/minRating': {
       return {
         ...state,
-        minRating: action.payload,
+        minRating: Number.isNaN(action.payload) || action.payload === null ? -Infinity : action.payload,
       }
     }
     case 'filter/onlyInStock': {

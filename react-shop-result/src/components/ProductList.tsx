@@ -1,8 +1,9 @@
 import './ProductList.css'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ProductState, selectProducts, visibleProducts } from '../store/productStore'
 import ProductCard from './ProductCard'
+import { ProductState } from '../store/product/type.ts'
+import { selectVisibleProducts } from '../store/product/selectors.ts'
 
 export default function ProductList() {
   const dispatch = useDispatch()
@@ -30,16 +31,15 @@ export default function ProductList() {
     fetchProducts()
   }, [fetchProducts])
 
-  const products: ProductState = useSelector(visibleProducts)
+  const products: ProductState = useSelector(selectVisibleProducts)
 
   return (
     <ul className="product-list">
-      {Array.isArray(products) &&
-        products.map((product) => (
-          <li key={product.id}>
-            <ProductCard product={product} />
-          </li>
-        ))}
+      {products.map((product) => (
+        <li key={product.id}>
+          <ProductCard product={product} />
+        </li>
+      ))}
     </ul>
   )
 }

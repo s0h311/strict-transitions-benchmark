@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectProductTags } from '../store/productStore.ts'
+import { selectProductTags } from '../store/product/selectors.ts'
 
 export default function FilterList() {
   const tags = useSelector(selectProductTags)

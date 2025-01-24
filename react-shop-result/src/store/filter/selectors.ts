@@ -1,3 +1,4 @@
 import { filterSlice } from './store.ts'
+import { FilterState } from './type.ts'
 
-export const selectFilter = (state) => state[filterSlice]
+export const selectFilter = ({ filters }: { [filterSlice]: FilterState }) => filters

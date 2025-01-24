@@ -1,5 +1,5 @@
-import { productInitialState } from '../productStore.ts'
 import { ProductAction, ProductState } from './type.ts'
+import { productInitialState } from './store.ts'
 
 export function productReducer(state: ProductState = productInitialState, action: ProductAction): ProductState {
   switch (action.type) {

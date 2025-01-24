@@ -1,29 +1,29 @@
 export type FilterState = {
   searchQuery: string | null
-  maxPrice: number | null
-  minRating: number | null
+  maxPrice: number
+  minRating: number
   onlyInStock: boolean
-  tags: string[] | null
+  tags: string[]
 }
 
 export type FilterAction =
   | {
       type: 'filter/search'
-      payload: string | null
+      payload: FilterState['searchQuery']
     }
   | {
       type: 'filter/maxPrice'
-      payload: number
+      payload: FilterState['maxPrice']
     }
   | {
       type: 'filter/minRating'
-      payload: number
+      payload: FilterState['minRating']
     }
   | {
       type: 'filter/onlyInStock'
-      payload: boolean
+      payload: FilterState['onlyInStock']
     }
   | {
       type: 'filter/tags'
-      payload: string[]
+      payload: FilterState['tags']
     }
