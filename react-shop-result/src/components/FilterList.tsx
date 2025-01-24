@@ -16,7 +16,7 @@ export default function FilterList() {
 
   return (
     <form>
-      <input type="text" onChange={updateSearchQuery} />
+      <input placeholder="Search" type="text" onChange={updateSearchQuery} />
     </form>
   )
 }

@@ -49,6 +49,7 @@ export function productReducer(state: ProductState = productInitialState, action
 }
 
 export const selectProducts = (state) => state[productSlice]
+
 export const visibleProducts = createSelector([selectProducts, selectFilter], (products, filters) => {
   if (!Array.isArray(products)) {
     return products
