@@ -13,11 +13,7 @@ export default function ProductList() {
       type: 'product/fetch',
     })
 
-    const fields = ['id', 'title', 'description', 'price', 'rating', 'stock', 'tags']
-
-    const url = `https://dummyjson.com/products?limit=10&select=${fields.join(',')}`
-
-    fetch(url)
+    fetch('http://localhost:4000/api/data.json')
       .then((res) => res.json())
       .then((res) => {
         dispatch({

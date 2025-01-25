@@ -36,11 +36,7 @@ export const useProductStore = defineStore('product', {
   },
   actions: {
     fetch() {
-      const fields = ['id', 'title', 'description', 'price', 'rating', 'stock', 'tags']
-
-      const url = `https://dummyjson.com/products?limit=10&select=${fields.join(',')}`
-
-      fetch(url)
+      fetch('http://localhost:4000/api/data.json')
         .then((res) => res.json())
         .then((res) => (this.products = res['products']))
         .catch((error) => (this.products = error))

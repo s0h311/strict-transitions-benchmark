@@ -2,9 +2,10 @@ services:
   nginx:
     image: nginx:1.27-alpine3.20
     ports:
-      - '3000:80'
+      - '4000:80'
     volumes:
       - ./react-shop-result/dist:/home/stb/react
       - ./vue-shop-result/dist:/home/stb/vue
+      - ./api/dummy-data.json:/home/stb/api/data.json
       - ./nginx:/etc/nginx
     restart: on-failure
