@@ -4,3 +4,8 @@
 node_modules
 out
 dist
+
+/playwright/test-results/
+/playwright/playwright-report/
+/blob-report/
+/playwright/.cache/

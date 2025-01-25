@@ -15,7 +15,7 @@ export default function ProductList() {
 
     const fields = ['id', 'title', 'description', 'price', 'rating', 'stock', 'tags']
 
-    const url = `https://dummyjson.com/products?limit=10&skip=10&select=${fields.join(',')}`
+    const url = `https://dummyjson.com/products?limit=10&select=${fields.join(',')}`
 
     fetch(url)
       .then((res) => res.json())
