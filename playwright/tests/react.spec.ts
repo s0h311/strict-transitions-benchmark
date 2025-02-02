@@ -1,21 +1,20 @@
 import { expect, test } from '@playwright/test'
+import { getReportPath } from './utils'
 
 test.describe('React', () => {
   test.beforeEach(async ({ page, browser }) => {
-    /**
-    await browser.startTracing(page, {
-      path: `./chrome-tracing-report/react/${crypto.randomUUID()}.json`,
-    })
-      */
-
     await page.goto('http://localhost:4000/react/')
   })
 
   test.afterEach(async ({ browser }) => {
-    // await browser.stopTracing()
+    await browser.stopTracing()
   })
 
-  test('should have all products', async ({ page }) => {
+  test('should have all products', async ({ page, browser }) => {
+    await browser.startTracing(page, {
+      path: getReportPath('react', 'have-all-products'),
+    })
+
     await page.$('article') // wait for products
     const products = page.getByRole('article')
     const count = await products.count()
@@ -43,7 +42,11 @@ test.describe('React', () => {
   ]
 
   searchTestCases.forEach(({ searchQuery, expected }) => {
-    test(`should have correct items when searching ${searchQuery}`, async ({ page }) => {
+    test(`should have correct items when searching ${searchQuery}`, async ({ page, browser }) => {
+      await browser.startTracing(page, {
+        path: getReportPath('react', 'search'),
+      })
+
       const searchInput = page.getByPlaceholder('search', {
         exact: true,
       })
@@ -80,7 +83,11 @@ test.describe('React', () => {
   ]
 
   maxPriceTestCases.forEach(({ maxPrice, expected }) => {
-    test(`should have correct items with a maxPrice of ${maxPrice}`, async ({ page }) => {
+    test(`should have correct items with a maxPrice of ${maxPrice}`, async ({ page, browser }) => {
+      await browser.startTracing(page, {
+        path: getReportPath('react', 'maxPrice'),
+      })
+
       const maxPriceInput = page.getByPlaceholder('max price', {
         exact: true,
       })
@@ -117,7 +124,11 @@ test.describe('React', () => {
   ]
 
   minRatingTestCases.forEach(({ minRating, expected }) => {
-    test(`should have correct items with a minRating of ${minRating}`, async ({ page }) => {
+    test(`should have correct items with a minRating of ${minRating}`, async ({ page, browser }) => {
+      await browser.startTracing(page, {
+        path: getReportPath('react', 'minRating'),
+      })
+
       const minRatingInput = page.getByPlaceholder('min rating', {
         exact: true,
       })
@@ -142,7 +153,11 @@ test.describe('React', () => {
   ]
 
   onlyInStockTestCases.forEach(({ onlyInStock, expected }) => {
-    test(`should have correct items when onlyInStock is ${onlyInStock}`, async ({ page }) => {
+    test(`should have correct items when onlyInStock is ${onlyInStock}`, async ({ page, browser }) => {
+      await browser.startTracing(page, {
+        path: getReportPath('react', 'onlyInStock'),
+      })
+
       const onlyInStockCheckbox = page.getByLabel('only in stock', {
         exact: true,
       })
@@ -327,7 +342,11 @@ test.describe('React', () => {
   ]
 
   tagTestCases.forEach(({ tags, expected }) => {
-    test(`should have correct items when tags ${String(tags)} are checked`, async ({ page }) => {
+    test(`should have correct items when tags ${String(tags)} are checked`, async ({ page, browser }) => {
+      await browser.startTracing(page, {
+        path: getReportPath('react', 'tags'),
+      })
+
       for (const tag of tags) {
         const tagCheckbox = page.getByLabel(tag, {
           exact: true,

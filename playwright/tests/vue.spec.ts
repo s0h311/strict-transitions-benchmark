@@ -1,11 +1,8 @@
 import { expect, test } from '@playwright/test'
+import { getReportPath } from './utils'
 
 test.describe('Vue', () => {
   test.beforeEach(async ({ page, browser }) => {
-    await browser.startTracing(page, {
-      path: `./chrome-tracing-report/vue/${crypto.randomUUID()}.json`,
-    })
-
     await page.goto('http://localhost:4000/vue/')
   })
 
@@ -13,7 +10,11 @@ test.describe('Vue', () => {
     await browser.stopTracing()
   })
 
-  test('should have all products', async ({ page }) => {
+  test('should have all products', async ({ page, browser }) => {
+    await browser.startTracing(page, {
+      path: getReportPath('vue', 'have-all-products'),
+    })
+
     await page.$('article') // wait for products
     const products = page.getByRole('article')
     const count = await products.count()
@@ -41,7 +42,11 @@ test.describe('Vue', () => {
   ]
 
   searchTestCases.forEach(({ searchQuery, expected }) => {
-    test(`should have correct items when searching ${searchQuery}`, async ({ page }) => {
+    test(`should have correct items when searching ${searchQuery}`, async ({ page, browser }) => {
+      await browser.startTracing(page, {
+        path: getReportPath('vue', 'search'),
+      })
+
       const searchInput = page.getByPlaceholder('search', {
         exact: true,
       })
@@ -78,7 +83,11 @@ test.describe('Vue', () => {
   ]
 
   maxPriceTestCases.forEach(({ maxPrice, expected }) => {
-    test(`should have correct items with a maxPrice of ${maxPrice}`, async ({ page }) => {
+    test(`should have correct items with a maxPrice of ${maxPrice}`, async ({ page, browser }) => {
+      await browser.startTracing(page, {
+        path: getReportPath('vue', 'maxPrice'),
+      })
+
       const maxPriceInput = page.getByPlaceholder('max price', {
         exact: true,
       })
@@ -115,7 +124,11 @@ test.describe('Vue', () => {
   ]
 
   minRatingTestCases.forEach(({ minRating, expected }) => {
-    test(`should have correct items with a minRating of ${minRating}`, async ({ page }) => {
+    test(`should have correct items with a minRating of ${minRating}`, async ({ page, browser }) => {
+      await browser.startTracing(page, {
+        path: getReportPath('vue', 'minRating'),
+      })
+
       const minRatingInput = page.getByPlaceholder('min rating', {
         exact: true,
       })
@@ -140,7 +153,11 @@ test.describe('Vue', () => {
   ]
 
   onlyInStockTestCases.forEach(({ onlyInStock, expected }) => {
-    test(`should have correct items when onlyInStock is ${onlyInStock}`, async ({ page }) => {
+    test(`should have correct items when onlyInStock is ${onlyInStock}`, async ({ page, browser }) => {
+      await browser.startTracing(page, {
+        path: getReportPath('vue', 'onlyInStock'),
+      })
+
       const onlyInStockCheckbox = page.getByLabel('only in stock', {
         exact: true,
       })
@@ -325,7 +342,11 @@ test.describe('Vue', () => {
   ]
 
   tagTestCases.forEach(({ tags, expected }) => {
-    test(`should have correct items when tags ${String(tags)} are checked`, async ({ page }) => {
+    test(`should have correct items when tags ${String(tags)} are checked`, async ({ page, browser }) => {
+      await browser.startTracing(page, {
+        path: getReportPath('vue', 'tags'),
+      })
+
       for (const tag of tags) {
         const tagCheckbox = page.getByLabel(tag, {
           exact: true,
