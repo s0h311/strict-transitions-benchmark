@@ -1,27 +1,20 @@
 import { expect, test } from '@playwright/test'
 import { getReportPath } from './utils'
 
-test.describe('React', () => {
-  test.beforeEach(async ({ page, browser }) => {
-    await page.goto('http://localhost:4000/react/')
+test('React', async ({ page, browser }) => {
+  await page.goto('http://localhost:4000/react/')
+
+  await browser.startTracing(page, {
+    path: getReportPath('react'),
   })
 
-  test.afterEach(async ({ browser }) => {
-    await browser.stopTracing()
-  })
+  // CASE: should have all products
+  await page.$('article') // wait for products
 
-  test('should have all products', async ({ page, browser }) => {
-    await browser.startTracing(page, {
-      path: getReportPath('react', 'have-all-products'),
-    })
+  expect(await page.getByRole('article').count()).toBe(194)
+  // CASE END
 
-    await page.$('article') // wait for products
-    const products = page.getByRole('article')
-    const count = await products.count()
-
-    expect(count).toBe(194)
-  })
-
+  // CASE: search
   const searchTestCases = [
     {
       searchQuery: 'red',
@@ -41,24 +34,22 @@ test.describe('React', () => {
     },
   ]
 
-  searchTestCases.forEach(({ searchQuery, expected }) => {
-    test(`should have correct items when searching ${searchQuery}`, async ({ page, browser }) => {
-      await browser.startTracing(page, {
-        path: getReportPath('react', 'search'),
-      })
-
-      const searchInput = page.getByPlaceholder('search', {
-        exact: true,
-      })
-      await searchInput.fill(searchQuery)
-
-      const products = page.getByRole('article')
-      const count = await products.count()
-
-      expect(count).toBe(expected)
+  for (const { searchQuery, expected } of searchTestCases) {
+    const searchInput = page.getByPlaceholder('search', {
+      exact: true,
     })
-  })
+    await searchInput.fill(searchQuery)
 
+    const products = page.getByRole('article')
+    const count = await products.count()
+
+    expect(count).toBe(expected)
+
+    await searchInput.fill('')
+  }
+  // CASE END
+
+  // CASE: maxPrice
   const maxPriceTestCases = [
     {
       maxPrice: 1,
@@ -82,24 +73,22 @@ test.describe('React', () => {
     },
   ]
 
-  maxPriceTestCases.forEach(({ maxPrice, expected }) => {
-    test(`should have correct items with a maxPrice of ${maxPrice}`, async ({ page, browser }) => {
-      await browser.startTracing(page, {
-        path: getReportPath('react', 'maxPrice'),
-      })
-
-      const maxPriceInput = page.getByPlaceholder('max price', {
-        exact: true,
-      })
-      await maxPriceInput.fill(String(maxPrice))
-
-      const products = page.getByRole('article')
-      const count = await products.count()
-
-      expect(count).toBe(expected)
+  for (const { maxPrice, expected } of maxPriceTestCases) {
+    const maxPriceInput = page.getByPlaceholder('max price', {
+      exact: true,
     })
-  })
+    await maxPriceInput.fill(String(maxPrice))
 
+    const products = page.getByRole('article')
+    const count = await products.count()
+
+    expect(count).toBe(expected)
+
+    await maxPriceInput.fill('')
+  }
+  // CASE END
+
+  // CASE: minRating
   const minRatingTestCases = [
     {
       minRating: 4.9,
@@ -123,54 +112,34 @@ test.describe('React', () => {
     },
   ]
 
-  minRatingTestCases.forEach(({ minRating, expected }) => {
-    test(`should have correct items with a minRating of ${minRating}`, async ({ page, browser }) => {
-      await browser.startTracing(page, {
-        path: getReportPath('react', 'minRating'),
-      })
-
-      const minRatingInput = page.getByPlaceholder('min rating', {
-        exact: true,
-      })
-      await minRatingInput.fill(String(minRating))
-
-      const products = page.getByRole('article')
-      const count = await products.count()
-
-      expect(count).toBe(expected)
+  for (const { minRating, expected } of minRatingTestCases) {
+    const minRatingInput = page.getByPlaceholder('min rating', {
+      exact: true,
     })
+    await minRatingInput.fill(String(minRating))
+
+    const products = page.getByRole('article')
+    const count = await products.count()
+
+    expect(count).toBe(expected)
+
+    await minRatingInput.fill('')
+  }
+  // CASE END
+
+  // CASE: onlyInStock
+  const onlyInStockCheckbox = page.getByLabel('only in stock', {
+    exact: true,
   })
 
-  const onlyInStockTestCases = [
-    {
-      onlyInStock: true,
-      expected: 188,
-    },
-    {
-      onlyInStock: false,
-      expected: 194,
-    },
-  ]
+  await onlyInStockCheckbox.check()
 
-  onlyInStockTestCases.forEach(({ onlyInStock, expected }) => {
-    test(`should have correct items when onlyInStock is ${onlyInStock}`, async ({ page, browser }) => {
-      await browser.startTracing(page, {
-        path: getReportPath('react', 'onlyInStock'),
-      })
+  expect(await page.getByRole('article').count()).toBe(188)
 
-      const onlyInStockCheckbox = page.getByLabel('only in stock', {
-        exact: true,
-      })
+  await onlyInStockCheckbox.uncheck()
+  // CASE END
 
-      onlyInStock ? await onlyInStockCheckbox.check() : await onlyInStockCheckbox.uncheck()
-
-      const products = page.getByRole('article')
-      const count = await products.count()
-
-      expect(count).toBe(expected)
-    })
-  })
-
+  // CASE: tags
   const tagTestCases = [
     {
       tags: ['beauty'],
@@ -341,23 +310,27 @@ test.describe('React', () => {
     },
   ]
 
-  tagTestCases.forEach(({ tags, expected }) => {
-    test(`should have correct items when tags ${String(tags)} are checked`, async ({ page, browser }) => {
-      await browser.startTracing(page, {
-        path: getReportPath('react', 'tags'),
+  for (const { tags, expected } of tagTestCases) {
+    for (const tag of tags) {
+      const tagCheckbox = page.getByLabel(tag, {
+        exact: true,
       })
+      await tagCheckbox.check()
+    }
 
-      for (const tag of tags) {
-        const tagCheckbox = page.getByLabel(tag, {
-          exact: true,
-        })
-        await tagCheckbox.check()
-      }
+    const products = page.getByRole('article')
+    const count = await products.count()
 
-      const products = page.getByRole('article')
-      const count = await products.count()
+    expect(count).toBe(expected)
 
-      expect(count).toBe(expected)
-    })
-  })
+    for (const tag of tags) {
+      const tagCheckbox = page.getByLabel(tag, {
+        exact: true,
+      })
+      await tagCheckbox.uncheck()
+    }
+  }
+  // CASE END
+
+  await browser.stopTracing()
 })

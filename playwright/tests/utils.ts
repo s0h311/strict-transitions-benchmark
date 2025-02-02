@@ -1,3 +1,12 @@
-export function getReportPath(environment: string, testCase: string): string {
-  return `./chrome-tracing-report/${environment}/${testCase}/${crypto.randomUUID()}.json`
+export function getReportPath(environment: string): string {
+  return `./chrome-tracing-report/${environment}/${getId()}.json`
+}
+
+function getId(): string {
+  const now = new Date()
+
+  const array = new Uint32Array(1)
+  crypto.getRandomValues(array)
+
+  return `${now.toISOString()}-${array[0]}`
 }
