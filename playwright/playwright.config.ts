@@ -34,7 +34,7 @@ export default defineConfig({
     headless: false,
   },
 
-  repeatEach: 1,
+  repeatEach: 20,
 
   /* Configure projects for major browsers */
   projects: [

@@ -7,5 +7,6 @@ dist
 
 /playwright/test-results/
 /playwright/playwright-report/
+/playwright/chrome-tracing-report/
 /blob-report/
 /playwright/.cache/
