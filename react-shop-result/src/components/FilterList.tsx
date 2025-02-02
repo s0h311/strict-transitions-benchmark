@@ -67,20 +67,20 @@ export default function FilterList() {
 
   return (
     <form>
-      <input placeholder="Search" type="text" onChange={updateSearchQuery} />
+      <input placeholder="search" type="text" onChange={updateSearchQuery} />
 
       <input placeholder="max price" type="number" onChange={updateMaxPrice} />
 
       <input placeholder="min rating" type="number" min={0} max={5} onChange={updateMinRating} />
 
       <input id="onlyInStockCheckbox" type="checkbox" onChange={updateOnlyInStock} />
-      <label form="onlyInStockCheckbox">only in stock</label>
+      <label htmlFor="onlyInStockCheckbox">only in stock</label>
 
       <div>
         {tags.map((tag) => (
           <div key={tag}>
             <input id={tag + 'checkbox'} type="checkbox" name={tag} onChange={updateTags} />
-            <label form={tag + 'checkbox'}>{tag}</label>
+            <label htmlFor={tag + 'checkbox'}>{tag}</label>
           </div>
         ))}
       </div>

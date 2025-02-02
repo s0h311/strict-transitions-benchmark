@@ -1,6 +1,6 @@
 <template>
   <form>
-    <input placeholder="Search" type="text" v-model="searchQuery" @input="updateSearchQuery" />
+    <input placeholder="search" type="text" v-model="searchQuery" @input="updateSearchQuery" />
 
     <input placeholder="max price" type="number" v-model="maxPrice" @input="updateMaxPrice" />
 
@@ -10,8 +10,8 @@
     <label for="onlyInStockCheckbox">only in stock</label>
 
     <div v-for="tag in productStore.tags" :key="tag">
-      <input type="checkbox" :value="tag" v-model="enabledTags" @change="updateTags" />
-      {{ tag }}
+      <input :id="tag + 'checkbox'" type="checkbox" :value="tag" v-model="enabledTags" @change="updateTags" />
+      <label :for="tag + 'checkbox'">{{ tag }}</label>
     </div>
   </form>
 </template>

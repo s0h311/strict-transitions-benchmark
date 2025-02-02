@@ -14,6 +14,7 @@ import ProductList from '../components/ProductList.vue'
 <style scoped>
 .main-content {
   display: flex;
+  align-items: start;
   gap: 30px;
 }
 </style>
