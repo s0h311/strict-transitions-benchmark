@@ -1,5 +1,5 @@
 import {createPinia} from 'pinia'
-import {TransitionsByStoreId} from './types.ts'
+import type {TransitionsByStoreId} from './types.ts'
 import {validateTransition} from './validateTransition.ts'
 
 type PiniaUseCallback = Parameters<ReturnType<typeof createPinia>['use']>[0]

@@ -1,4 +1,4 @@
-import {Transitions} from './types.ts'
+import type {Transitions} from './types.ts'
 import {IllegalTransitionError} from '../core/IllegalTransitionError.ts'
 import {TransitionNotFoundError} from '../core/TransitionNotFoundError.ts'
 
