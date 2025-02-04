@@ -5,7 +5,7 @@ test('React', async ({ page, browser }) => {
   await page.goto('http://localhost:4000/react/')
 
   await browser.startTracing(page, {
-    path: getReportPath('react'),
+    path: getReportPath('react-strict-transitions'),
   })
 
   // CASE: should have all products

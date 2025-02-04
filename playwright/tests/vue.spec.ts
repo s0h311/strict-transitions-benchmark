@@ -5,7 +5,7 @@ test('Vue', async ({ page, browser }) => {
   await page.goto('http://localhost:4000/vue/')
 
   await browser.startTracing(page, {
-    path: getReportPath('vue'),
+    path: getReportPath('vue-strict-transitions'),
   })
 
   // CASE: should have all products
