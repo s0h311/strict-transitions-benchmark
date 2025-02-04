@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { createTransitions } from '../../../strict-transitions/pinia/createTransitions'
 
 export type FilterState = {
   searchQuery: string | null
@@ -8,7 +9,16 @@ export type FilterState = {
   tags: string[]
 }
 
-export const useFilterStore = defineStore('filter', {
+export const filterTransitions = createTransitions([
+  {
+    identityFn: (state: FilterState) => !!state,
+    actions: ['updateSearchQuery', 'updateMaxPrice', 'updateMinRating', 'updateOnlyInStock', 'updateTags'],
+  },
+])
+
+export const filterStoreId = 'filter'
+
+export const useFilterStore = defineStore(filterStoreId, {
   state: (): FilterState => ({
     searchQuery: null,
     maxPrice: Infinity,

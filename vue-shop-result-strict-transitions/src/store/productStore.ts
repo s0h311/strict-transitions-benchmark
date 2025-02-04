@@ -1,12 +1,22 @@
 import { defineStore } from 'pinia'
 import type { Product } from './types.ts'
 import { useFilterStore } from './filterStore.ts'
+import { createTransitions } from '../../../strict-transitions/pinia/createTransitions'
 
 export type ProductState = {
   products: 'not-fetched' | 'fetching' | Product[] | Error
 }
 
-export const useProductStore = defineStore('product', {
+export const productTransitions = createTransitions([
+  {
+    identityFn: (state: ProductState) => state.products === 'not-fetched',
+    actions: ['fetch'],
+  },
+])
+
+export const productStoreId = 'product'
+
+export const useProductStore = defineStore(productStoreId, {
   state: (): ProductState => ({
     products: 'not-fetched',
   }),
@@ -36,6 +46,8 @@ export const useProductStore = defineStore('product', {
   },
   actions: {
     fetch() {
+      this.products = 'fetching'
+
       fetch('http://localhost:4000/api/data.json')
         .then((res) => res.json())
         .then((res) => (this.products = res['products']))

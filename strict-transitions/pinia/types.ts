@@ -5,6 +5,6 @@ export type Transition<S> = {
 
 export type Transitions<S> = Transition<S>[]
 
-export type TransitionsByStoreId<S> = {
+export type TransitionsByStoreId<S = any> = {
   [storeId: string]: Transitions<S>
 }
