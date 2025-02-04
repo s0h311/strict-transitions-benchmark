@@ -4,7 +4,8 @@ services:
     ports:
       - '4000:80'
     volumes:
-      - ./react-shop-result/dist:/home/stb/react
+      # - ./react-shop-result/dist:/home/stb/react
+      - ./react-shop-result-strict-transitions/dist:/home/stb/react
       - ./vue-shop-result/dist:/home/stb/vue
       - ./api/dummy-data.json:/home/stb/api/data.json
       - ./nginx:/etc/nginx

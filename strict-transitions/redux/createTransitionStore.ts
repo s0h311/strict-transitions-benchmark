@@ -1,10 +1,10 @@
-import { Transitions, TransitionStore } from './types'
-import { legacy_createStore as createStore } from 'redux'
-import { validateTransition } from './validateTransition.ts'
-import { dispatchTransition } from './dispatchTransition.ts'
+import {Transitions, TransitionStore} from './types'
+import {legacy_createStore as createStore} from 'redux'
+import {validateTransition} from './validateTransition.ts'
+import {dispatchTransition} from './dispatchTransition.ts'
 
-export function createTransitionStore<S>(
-  transitions: Transitions<S>,
+export function createTransitionStore<S, A>(
+  transitions: Transitions<S, A>,
   ...args: Parameters<typeof createStore>
 ): TransitionStore<S> {
   const store = createStore(...args)
