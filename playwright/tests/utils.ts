@@ -1,5 +1,5 @@
 export function getReportPath(environment: string): string {
-  return `./chrome-tracing-report/${environment}/${getId()}.json`
+  return `./chrome-tracing-report/${environment}/${getId()}-${environment}.json`
 }
 
 function getId(): string {
