@@ -1,23 +1,23 @@
 // @ts-check
 
 import { existsSync, globSync, readFileSync, writeFileSync } from 'fs'
+import { execSync } from 'child_process'
 
 const outputPath = process.argv[2]
 const note = process.argv[3]
 
-const ignorePatterns = ['node_modules/', '.vscode/', '.idea/', 'out/', 'dist/', '.out/', '.dist']
+const ignorePatterns = ['node_modules/', '.vscode/', '.idea/', 'out/', 'dist/', '.out/', '.dist', '.d.ts']
 
 function getStatsAsCsvRow(fileType) {
-  const files = globSync(`**/*.${fileType}`)
-	.filter((file) => {
-	  return ignorePatterns.every((pattern) => !file.includes(pattern))
-	})
+  const files = globSync(`**/*.${fileType}`).filter((file) => {
+    return ignorePatterns.every((pattern) => !file.includes(pattern))
+  })
 
   const loc = files
     .map((file) => {
-      const content = readFileSync(file, { encoding: 'utf-8' })
+      const result = execSync(`wc -l ${file}`, { encoding: 'utf-8' })
 
-      return content.search('\n')
+      return Number(result.trim().split(' ')[0])
     })
     .reduce((a, b) => a + b, 0)
 
